@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html ng-app="ShopDBAdmin">
+<head>
+    <title>shop.db admin</title>
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="app-content/app.css" rel="stylesheet" />
+    <script src="node_modules/angular/angular.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+</head>
+<body>
+  <NOSCRIPT>
+    You need Javascript enabled to use this site.
+  </NOSCRIPT>
+
+
+  <div ng-cloak ng-controller="NavbarController as vm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+      <a class="navbar-brand" href="#!/">shop.db admin</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item" ng-class="{'active' : tab.active}" ng-repeat="tab in vm.tabs">
+            <a class="nav-link" href="" ng-click="vm.go(tab.route)">
+              {{tab.title}}
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="">
+            <i class="fa fa-fw fa-sign-out"></i>&nbsp;Logout
+          </a>
+        </li>
+      </ul>
+      </div>
+    </nav>
+
+    <div class="row">
+      <div class="col-11 m-auto">
+        <ui-view></ui-view>
+      </div>
+
+    </div>
+
+    <!-- scripts -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="node_modules/angular-auto-complete/angular-auto-complete.js"></script>
+    <script src="node_modules/chart.js/dist/Chart.min.js" charset="utf-8"></script>
+    <script src="node_modules/angular-chart.js/dist/angular-chart.min.js" charset="utf-8"></script>
+    <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="node_modules/angular-jwt/dist/angular-jwt.min.js"></script>
+    <script src="node_modules/ng-storage/ngStorage.min.js"></script>
+
+    <!-- application scripts -->
+    <script src="app.js"></script>
+    <script src="app-services/authentication.service.js"></script>
+    <script src="app-services/data.service.js"></script>
+    <script src="app-filters/filters.js"></script>
+    <script src="app-controllers/login.controller.js"></script>
+    <script src="app-controllers/navbar.controller.js"></script>
+    <script src="app-controllers/home.controller.js"></script>
+    <script src="app-controllers/consumer.controller.js"></script>
+    <script src="app-controllers/purchase.controller.js"></script>
+    <script src="app-controllers/product.controller.js"></script>
+    <script src="app-controllers/department.controller.js"></script>
+  </div>
+
+
+</body>
+</html>

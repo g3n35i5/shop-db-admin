@@ -1,0 +1,63 @@
+<div ng-if="vm.loading" ng-include="'app-pages/partial.loading.html'"></div>
+
+<div ng-if="!vm.loading" class="card mb-3">
+  <div class="card-body">
+    <h4 class="card-title">Departments</h4>
+    <h6 class="card-subtitle mb-2 text-muted">
+      Here you can manage all departments.
+    </h6>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Base income</th>
+          <th>Karma income</th>
+          <th>Expenses</th>
+          <th>Budget</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          ng-class="department.income_base < department.expenses + budget ? 'table-danger':'table-success'"
+          ng-repeat="department in vm.departments | orderBy : 'name'">
+            <td>{{department.name}}</td>
+            <td>{{department.income_base | customCurrency:true}}</td>
+            <td>{{department.income_karma | customCurrency:true}}</td>
+            <td>{{department.expenses | customCurrency:true}}</td>
+            <td>{{department.budget | customCurrency:true}}</td>
+        </tr>
+        </tbody>
+        </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Payoffs</h4>
+    <h6 class="card-subtitle mb-2 text-muted">Here you see all payoffs.</h6>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Department</th>
+          <th>Amount</th>
+          <th>Comment</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      <tr ng-repeat="payoff in vm.payoffs | orderBy : '-id'">
+        <td>{{payoff.id}}</td>
+        <td>{{vm.departments[payoff.department_id].name}}</td>
+        <td>{{payoff.amount | customCurrency:true}}</td>
+        <td>{{payoff.comment | longStrings:40}}</td>
+        <td>{{payoff.timestamp | customDateString}}</td>
+      </tr>
+      </tbody>
+  </table>
+
+  </div>
+</div>

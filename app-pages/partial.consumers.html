@@ -1,0 +1,98 @@
+<div ng-if="vm.loading" ng-include="'app-pages/partial.loading.html'"></div>
+
+<div ng-if="!vm.loading" class="card mb-3">
+  <div class="card-body">
+    <h4 class="card-title">Consumers</h4>
+    <h6 class="card-subtitle mb-4 text-muted">
+      Here you can manage all consumers.
+    </h6>
+    <form class="mb-4">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fa fa-search"></i>
+          </div>
+          <input type="text" class="form-control" ng-model="vm.searchString" placeholder="Search consumer">
+        </div>
+      </div>
+    </form>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              <a href="" ng-click="vm.sortType = 'id'; vm.sortReverse = !vm.sortReverse">
+                ID
+                <span ng-show="vm.sortType == 'id' && vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'id' && !vm.sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th>
+              <a href="" ng-click="vm.sortType = 'name'; vm.sortReverse = !vm.sortReverse">
+                Name
+                <span ng-show="vm.sortType == 'name' && vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'name' && !vm.sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th>
+              <a href="" ng-click="vm.sortType = 'credit'; vm.sortReverse = !vm.sortReverse">
+                Credit
+                <span ng-show="vm.sortType == 'credit' && vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'credit' && !vm.sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th>
+              <a href="" ng-click="vm.sortType = 'karma'; vm.sortReverse = !vm.sortReverse">
+                Karma
+                <span ng-show="vm.sortType == 'karma' && vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'karma' && !vm.sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr ng-repeat="consumer in vm.consumers | orderBy:vm.sortType:vm.sortReverse | filter:vm.searchString"
+              ng-class="consumer.credit >= 0 ? '':'table-danger'">
+              <td>{{consumer.id}}</td>
+              <td>{{consumer.name}}</td>
+              <td>{{consumer.credit | customCurrency:true }}</td>
+              <td>
+                <i
+                  class="fa fa-heart mr-1"
+                  ng-style="{ 'color' : consumer.karma >= 0 ? '#4caf50':'#d50000'}">
+                </i>
+                {{consumer.karma}}
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  ng-click="vm.openEditConsumerModal(consumer)">
+                  <i class="fa fa-fw fa-pencil-square-o"></i>
+                  Edit
+                </button>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  ng-click="vm.openDepositModal(consumer)">
+                  <i class="fa fa-fw fa-money"></i>
+                  Deposit
+                </button>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Include makeDepositModal -->
+<div ng-include="'app-pages/modals/makeDepositModal.html'"></div>
+
+<!-- Include editConsumerModal -->
+<div ng-include="'app-pages/modals/editConsumerModal.html'"></div>

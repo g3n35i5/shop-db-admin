@@ -1,0 +1,57 @@
+<div ng-if="vm.loading" ng-include="'app-pages/partial.loading.html'"></div>
+
+<div ng-if="!vm.loading" class="card mb-3">
+  <div class="card-body">
+
+    <div class="row">
+      <!-- <div class="col">
+        <input type="text"
+            ng-model="vm.stockhistoryProduct"
+            placeholder="Product name"
+            auto-complete="vm.autoCompleteOptions" />
+      </div> -->
+      <div class="col">
+        <div class="form-group input-group input-daterange">
+          <input type="text" class="form-control datepicker" />
+          <div class="input-group-addon">to</div>
+          <input type="text" class="form-control datepicker" />
+        </div>
+      </div>
+
+
+      <div class="col">
+        <a
+          class="btn btn-outline-primary"
+          href="" ng-click="vm.setDates('week')">Last week
+        </a>
+        <a
+          class="btn btn-outline-primary"
+          href="" ng-click="vm.setDates('month')">Last month
+        </a>
+        <a
+          class="btn btn-info"
+          href="" ng-click="vm.getStockHistory(34)">Submit
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-8 mx-auto">
+        <p
+          class="lead text-center mt-4"
+          ng-show="vm.stockhistory['data'].length < 2">
+          Please select one or more products to continue.
+        </p>
+        <canvas
+          id="line"
+          class="chart chart-line"
+          chart-data="vm.stockhistory['data']"
+          chart-labels="vm.stockhistory['labels']"
+          chart-series="series"
+          chart-options="options"
+          chart-dataset-override="datasetOverride"
+          ng-show="vm.stockhistory['data'].length > 1">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>

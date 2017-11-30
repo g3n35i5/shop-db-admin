@@ -1,0 +1,78 @@
+<div ng-if="vm.loading" ng-include="'app-pages/partial.loading.html'"></div>
+
+<div ng-if="!vm.loading" class="card mb-3">
+  <div class="card-body">
+    <h4 class="card-title">Products</h4>
+    <h6 class="card-subtitle mb-4 text-muted">
+      Here you can manage all products.
+    </h6>
+    <form class="mb-4">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fa fa-search"></i>
+          </div>
+          <input type="text" class="form-control" ng-model="vm.searchString" placeholder="Search product">
+        </div>
+      </div>
+    </form>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              <a href="" ng-click="vm.sortType = 'id'; vm.sortReverse = !vm.sortReverse">
+                ID
+                <span ng-show="vm.sortType == 'id' && vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'id' && !vm.sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th>
+              <a href="" ng-click="vm.sortType = 'name'; vm.sortReverse = !vm.sortReverse">
+                Name
+                <span ng-show="vm.sortType == 'name' && vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'name' && !vm.sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th>
+              <a href="" ng-click="vm.sortType = 'price'; vm.sortReverse = !vm.sortReverse">
+                Price
+                <span ng-show="vm.sortType == 'price' && vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'price' && !vm.sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th>
+              <a href="" ng-click="vm.sortType = 'department_id'; vm.sortReverse = !vm.sortReverse">
+                Department
+                <span ng-show="vm.sortType == 'department_id' && vm.sortReverse" class="fa fa-caret-down"></span>
+                <span ng-show="vm.sortType == 'department_id' && !vm.sortReverse" class="fa fa-caret-up"></span>
+              </a>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr ng-repeat="product in vm.products | orderBy:vm.sortType:vm.sortReverse | filter:vm.searchString">
+              <td>{{product.id}}</td>
+              <td>{{product.name}}</td>
+              <td>{{product.price | customCurrency:true }}</td>
+              <td>{{vm.departments[product.department_id].name}}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  ng-click="vm.openEditProductModal(product)">
+                  <i class="fa fa-fw fa-pencil-square-o"></i>
+                  Edit
+                </button>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Include editProductModal -->
+<div ng-include="'app-pages/modals/editProductModal.html'"></div>

@@ -1,0 +1,50 @@
+<div class="modal fade" id="makeDepositModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <form>
+        <div class="modal-body">
+          <p class="text-center">Create deposit for</p>
+          <h3 class="text-center">{{vm.depositData.consumer.name}}</h3>
+          <!-- Show error message -->
+          <div class="alert alert-danger" role="alert" ng-if="vm.depositData.error">
+            {{vm.depositData.errorMessage}}
+          </div>
+          <!-- Start deposit form -->
+          <div class="form-group">
+            <label for="depositCents">Amount in cents</label>
+            <input type="number" class="form-control" id="depositCents" ng-model="vm.depositData.amount">
+          </div>
+          <div class="form-group">
+            <label for="categorySelect">Deposit type</label>
+            <select
+              class="form-control"
+              id="categorySelect"
+              ng-model="vm.depositData.selectedCategory"
+              ng-options="category.text for category in vm.depositData.categories">
+            </select>
+          </div>
+          <div class="form-group" ng-if="!vm.depositData.selectedCategory.standalone">
+            <label for="depositComment">Comment</label>
+            <input
+              type="text"
+              class="form-control"
+              id="depositComment"
+              ng-model="vm.depositData.comment"
+              placeholder="Please enter a comment">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="submit"
+            ng-click="vm.makeDeposit()"
+            class="btn btn-primary">Submit
+          </button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

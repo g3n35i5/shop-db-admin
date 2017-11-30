@@ -1,0 +1,88 @@
+<div ng-if="vm.loading" ng-include="'app-pages/partial.loading.html'"></div>
+
+<div ng-if="!vm.loading">
+  <center>
+    <h3 class="mb-4">{{'' | greeting}} {{vm.admin.name}}</h3>
+    <p class="lead text-secondary">You are administrator of the
+      <span>
+        {{vm.admin.adminroles.length > 1 ? 'departments' : 'department'}}
+      </span>
+    </p>
+    <p class="lead text-secondary">
+      <strong>{{vm.adminRoles}}</strong>
+    </p>
+  </center>
+  <!-- Graphs -->
+  <div class="row mb-4">
+    <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 ml-auto">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-fw fa-area-chart"></i>
+          &nbsp;Purchase times
+        </div>
+        <div class="card-body">
+          <canvas
+            id="line"
+            class="chart chart-line"
+            chart-data="vm.purchaseTimes.data"
+            chart-labels="vm.purchaseTimes.labels"
+            chart-series="vm.purchaseTimes.legend"
+            chart-options="vm.ptChartOptions"
+            chart-dataset-override="datasetOverride">
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 ml-auto">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-fw fa-bar-chart"></i>
+          &nbsp;Incomes and expenses
+        </div>
+        <div class="card-body">
+          <canvas
+            id="bar"
+            class="chart chart-bar"
+            chart-data="vm.incomesExpenses.data"
+            chart-labels="vm.incomesExpenses.labels"
+            chart-series="vm.incomesExpenses.series"
+            chart-options="vm.ieChartOptions"
+            chart-colors="vm.ieChartColors"
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Quicklinks -->
+  <div class="card">
+    <div class="card-body">
+      <div class="card-deck">
+        <div class="card mb-2" ng-repeat="ql in vm.quickLinks">
+          <div class="card-header text-white" ng-class="ql.color">
+            <div class="row">
+              <div class="col-3 d-flex align-items-center">
+                <span class="ml-1 fa-5x" ng-class="ql.icon"></span>
+              </div>
+              <div class="col text-right">
+                <h4 class="display-4">{{ql.array.length}}</h4>
+                <div>
+                  <h4>{{ql.title}}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="{{ql.link}}">
+            <div class="card-body">
+              <h4 class="card-title"></h4>
+              <span class="pull-left">View Details</span>
+              <span class="pull-right">
+                <i class="fa fa-arrow-circle-right"></i>
+              </span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

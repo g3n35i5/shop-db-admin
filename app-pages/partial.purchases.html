@@ -1,0 +1,64 @@
+<div ng-if="vm.loading" ng-include="'app-pages/partial.loading.html'"></div>
+
+<div class="card" ng-if="!vm.loading">
+  <div class="card-body">
+    <h4 class="card-title">Purchases</h4>
+    <h6 class="card-subtitle mb-2 text-muted">
+      Here you manage all purchases.
+    </h6>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Consumer</th>
+            <th>Product</th>
+            <th>Timestamp</th>
+            <th>Amount</th>
+            <th>Price</th>
+            <th>Paid Price</th>
+            <th>Revoke</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            ng-repeat="purchase in vm.purchases | orderBy : '-id'"
+            ng-class="purchase.revoked ? 'table-secondary' : ''">
+            <td>{{purchase.id}}</td>
+            <td>{{vm.consumers[purchase.consumer_id].name}}</td>
+            <td>{{vm.products[purchase.product_id].name | longStrings}}</td>
+            <td
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title="{{purchase.timestamp}}">
+              {{purchase.timestamp | customDateString}}
+            </td>
+            <td>{{purchase.amount}}</td>
+            <td>
+              {{(purchase.paid_base_price_per_product +
+                purchase.paid_karma_per_product) | customCurrency:true}}
+            </td>
+            <td>
+              {{purchase.amount * (purchase.paid_base_price_per_product +
+                purchase.paid_karma_per_product) | customCurrency : true}}
+            </td>
+
+            <td>
+              <button
+                type="button"
+                class="btn btn-outline"
+                ng-click="vm.revokePurchase(purchase)"
+                ng-disabled="puchase.revoked">
+                <i ng-class="purchase.revoked? 'fa-times' : 'fa-reply'" class="fa"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+
+</div>
