@@ -85,7 +85,8 @@ angular.module('ShopDBAdmin').filter('adminRoles', function() {
   return function(roles, departments) {
     var names = [];
     for (role of roles) {
-      names.push(departments[role.department_id].name);
+      var department = departments.find(x => x.id === role.department_id);
+      names.push(department.name);
     }
     var return_string = '';
     if (names.length > 1) {
@@ -97,8 +98,8 @@ angular.module('ShopDBAdmin').filter('adminRoles', function() {
       }
       return_string += ' and ' + names.slice(-1)[0];
     } else {
-      return names[0];
+        return_string = names[0];
     }
-    return return_string;
+    return return_string + '.';
   }
 });

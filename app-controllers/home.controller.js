@@ -39,13 +39,6 @@
     }
 
     function handleData() {
-      // shift department IDs
-      var departments = {};
-      for (var department of vm.departments) {
-        departments[department.id] = department;
-      }
-      vm.departments = departments;
-
       var purchaseTimes = {};
       purchaseTimes['labels'] = vm.statistics[0].purchase_times['labels'];
       purchaseTimes['data'] = [];
@@ -58,7 +51,7 @@
 
       // Handle statistics
       for (var stat of vm.statistics) {
-        var department = vm.departments[stat.department_id];
+        var department = vm.departments.find(x => x.id === stat.department_id);
 
         // Handle purchase times
         purchaseTimes['data'].push(stat.purchase_times['data']);
