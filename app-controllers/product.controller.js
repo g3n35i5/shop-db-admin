@@ -28,13 +28,9 @@
     initController().then(handleData)
 
     function handleData() {
-      // shift department IDs
-      var departments = {};
-      for (var department of vm.departments) {
-        departments[department.id] = department;
+      for (var product of vm.products) {
+        product.departmentName = vm.departments.find(x => x.id === product.department_id).name;
       }
-      vm.departments = departments;
-
       vm.loading = false;
     }
 
