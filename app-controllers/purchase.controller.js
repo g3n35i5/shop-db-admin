@@ -13,6 +13,10 @@
     initController().then(handleData)
 
     function handleData() {
+      for (var purchase of vm.purchases) {
+        purchase.consumerName = vm.consumers.find(x => x.id === purchase.consumer_id).name;
+        purchase.productName = vm.products.find(x => x.id === purchase.product_id).name;
+      }
       vm.loading = false;
     }
 

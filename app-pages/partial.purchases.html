@@ -6,6 +6,9 @@
     <h6 class="card-subtitle mb-2 text-muted">
       Here you manage all purchases.
     </h6>
+    <h6 class="card-subtitle mb-4 text-muted">
+      You can hover some fields to get more information.
+    </h6>
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -26,11 +29,16 @@
             ng-repeat="purchase in vm.purchases | orderBy : '-id'"
             ng-class="purchase.revoked ? 'table-secondary' : ''">
             <td>{{purchase.id}}</td>
-            <td>{{vm.consumers[purchase.consumer_id].name}}</td>
-            <td>{{vm.products[purchase.product_id].name | longStrings}}</td>
+            <td>{{purchase.consumerName}}</td>
             <td
               data-toggle="tooltip"
-              data-placement="bottom"
+              data-placement="top"
+              title="{{purchase.productName}}">
+              {{purchase.productName | longStrings}}
+            </td>
+            <td
+              data-toggle="tooltip"
+              data-placement="top"
               title="{{purchase.timestamp}}">
               {{purchase.timestamp | customDateString}}
             </td>

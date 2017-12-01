@@ -12,8 +12,9 @@
     initController().then(handleData)
 
     function handleData() {
-
-
+      for (var payoff of vm.payoffs) {
+        payoff.departmentName = vm.departments.find(x => x.id === payoff.department_id).name;
+      }
     }
 
     function initController() {
