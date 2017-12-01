@@ -39,7 +39,7 @@
     }
 
     function handleData() {
-        // shift department IDs
+      // shift department IDs
       var departments = {};
       for (var department of vm.departments) {
         departments[department.id] = department;
