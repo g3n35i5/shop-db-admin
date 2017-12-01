@@ -6,16 +6,39 @@
     <h6 class="card-subtitle mb-4 text-muted">
       Here you can manage all consumers.
     </h6>
-    <form class="mb-4">
-      <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-addon">
-            <i class="fa fa-search"></i>
+    <div class="row">
+      <div class="col-4">
+        <form class="mb-4">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-search"></i>
+              </div>
+              <input type="text" class="form-control" ng-model="vm.searchString" placeholder="Search consumer">
+              <button
+                type="button"
+                ng-click="vm.searchString = ''"
+                ng-if="vm.searchString != ''"
+                class="btn btn-outline-danger ml-2">
+                <i class="fa fa-times"></i>
+                Clear
+              </button>
+            </div>
+
           </div>
-          <input type="text" class="form-control" ng-model="vm.searchString" placeholder="Search consumer">
-        </div>
+        </form>
+
       </div>
-    </form>
+      <div class="col text-right">
+        <button
+          type="button"
+          class="btn btn-outline-success"
+          ng-click="vm.openAddConsumerModal()">
+          <i class="fa fa-plus"></i>
+          Add consumer
+        </button>
+      </div>
+    </div>
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -66,7 +89,7 @@
                 </i>
                 {{consumer.karma}}
               </td>
-              <td>
+              <td class="text-right">
                 <button
                   type="button"
                   class="btn btn-outline-primary"
@@ -75,7 +98,7 @@
                   Edit
                 </button>
               </td>
-              <td>
+              <td class="text-right">
                 <button
                   type="button"
                   class="btn btn-outline-primary"
@@ -96,3 +119,6 @@
 
 <!-- Include editConsumerModal -->
 <div ng-include="'app-pages/modals/editConsumerModal.html'"></div>
+
+<!-- Include addConsumerModal -->
+<div ng-include="'app-pages/modals/addConsumerModal.html'"></div>

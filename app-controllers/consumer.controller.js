@@ -44,8 +44,15 @@
       'errorMessage': null
     }
 
+    vm.addConsumerDataInitial = {
+      'consumer': {},
+      'error': false,
+      'errorMessage': null
+    }
+
     vm.depositData = angular.copy(vm.depositDataInitial);
     vm.editConsumerData = angular.copy(vm.editConsumerDataInitial);
+    vm.addConsumerData = angular.copy(vm.addConsumerDataInitial);
 
     // consumer list filters
     vm.sortType = 'name';
@@ -71,7 +78,7 @@
           'comment': comment
         };
         postDataService.postData('/deposits', data).then(function(res) {
-          if (res['result'] == 'created') {
+          if (res['result'] === 'created') {
             getDataService.getData('consumers').then(function(consumers) {
               vm.consumers = consumers[0];
             })
@@ -83,6 +90,24 @@
           }
         })
       }
+    }
+
+    vm.addConsumer = function () {
+      var data = {
+        'name': vm.addConsumerData.consumer.name
+      }
+      postDataService.postData('/consumers', data).then(function(res) {
+        if (res['result'] === 'created') {
+          getDataService.getData('consumers').then(function(consumers) {
+            vm.consumers = consumers[0];
+          })
+          $('#addConsumerModal').modal('toggle');
+          vm.addConsumerData = angular.copy(vm.addConsumerDataInitial);
+        } else {
+          vm.addConsumerData.error = true;
+          vm.addConsumerData.errorMessage = 'Something went wrong!'
+        }
+      })
     }
 
     vm.editConsumer = function() {
@@ -112,6 +137,10 @@
     vm.openDepositModal = function(consumer) {
       vm.depositData.consumer = angular.copy(consumer);
       $('#makeDepositModal').modal('toggle')
+    }
+
+    vm.openAddConsumerModal = function() {
+      $('#addConsumerModal').modal('toggle')
     }
 
     vm.openEditConsumerModal = function(consumer) {
