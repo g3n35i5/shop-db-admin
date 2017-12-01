@@ -11,6 +11,7 @@
 
     service.Login = Login;
     service.Logout = Logout;
+    service.Status = Status;
 
     return service;
 
@@ -23,6 +24,20 @@
             if (response.data.result) {
               $localStorage.token = response.data.token;
               $localStorage.admin = response.data.admin;
+              callback(true);
+            } else {
+              callback(false);
+            }
+          },
+          function(data) {
+            callback(false);
+          });
+    }
+
+    function Status(callback) {
+      $http.get(apiurl + "/status", {})
+        .then(function(response) {
+            if (response.data.result) {
               callback(true);
             } else {
               callback(false);

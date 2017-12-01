@@ -58,27 +58,38 @@
         templateUrl: 'app-pages/login.html',
         controller: 'LoginController',
         controllerAs: 'vm'
+      })
+      .state('offline', {
+        url: '/offline',
+        templateUrl: 'app-pages/offline.html'
       });
   }
 
   function run($rootScope, $http, $location, $localStorage, jwtHelper, AuthenticationService) {
     $rootScope.$on('$locationChangeStart', function(event, next, current) {
-      if ($location.path() !== '/login') {
-        try {
-          var token = $localStorage.token;
-          var tokenExpired = jwtHelper.isTokenExpired(token);
-          if (tokenExpired) {
+      AuthenticationService.Status(function(result) {
+        if (!result) {
+          $location.path('/offline');
+        } else {
+          if ($location.path() !== '/login') {
+            try {
+              var token = $localStorage.token;
+              var tokenExpired = jwtHelper.isTokenExpired(token);
+              if (tokenExpired) {
+                $location.path('/login');
+              }
+            } catch (e) {
+              $location.path('/login');
+            }
+          }
+          var publicPages = ['/login'];
+          var restrictedPage = publicPages.indexOf($location.path()) === -1;
+          if (restrictedPage && !$localStorage.token) {
             $location.path('/login');
           }
-        } catch (e) {
-          $location.path('/login');
         }
-      }
-      var publicPages = ['/login'];
-      var restrictedPage = publicPages.indexOf($location.path()) === -1;
-      if (restrictedPage && !$localStorage.token) {
-        $location.path('/login');
-      }
+      });
+
     });
   }
 })();
