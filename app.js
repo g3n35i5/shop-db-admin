@@ -47,12 +47,6 @@
         controller: 'HomeController',
         controllerAs: 'vm'
       })
-      .state('editconsumer', {
-        url: '/editconsumer',
-        templateUrl: 'app-pages/partial.editconsumer.html',
-        controller: 'HomeController',
-        controllerAs: 'vm'
-      })
       .state('login', {
         url: '/login',
         templateUrl: 'app-pages/login.html',
