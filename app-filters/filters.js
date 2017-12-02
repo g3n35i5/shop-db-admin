@@ -68,11 +68,12 @@ angular.module('ShopDBAdmin').filter('greeting', function() {
   return function() {
     var thehours = new Date().getHours();
 
-    if (thehours >= 0 && thehours < 12) {
+    if (thehours >= 0 && thehours < 6) {
+      return 'Good evening'
+    } else if (thehours >= 6 && thehours < 12) {
       return 'Good morning'
     } else if (thehours >= 12 && thehours < 17) {
       return 'Good afternoon'
-
     } else if (thehours >= 17 && thehours < 24) {
       return 'Good evening'
     } else {
