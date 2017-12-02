@@ -111,13 +111,19 @@
     }
 
     vm.editConsumer = function() {
-      if (vm.editConsumerData.consumer != vm.editConsumerData.editedConsumer) {
+      var original = vm.editConsumerData.consumer;
+      var edited = vm.editConsumerData.editedConsumer;
+      console.log("hello?");
+      if (original != edited && edited.password === edited.repeatpassword) {
         var data = {
           'id': vm.editConsumerData.editedConsumer.id,
-          'name': vm.editConsumerData.editedConsumer.name
+          'name': vm.editConsumerData.editedConsumer.name,
+          'email': vm.editConsumerData.editedConsumer.email,
+          'password': vm.editConsumerData.editedConsumer.password,
+          'studentnumber': vm.editConsumerData.editedConsumer.studentnumber
         }
 
-        putDataService.putData('/consumers/' + data.id, data).then(function(res) {
+        putDataService.putData('/consumer/' + data.id, data).then(function(res) {
           if (res['result'] == 'updated') {
             getDataService.getData('consumers').then(function(consumers) {
               vm.consumers = consumers[0];
@@ -129,9 +135,7 @@
             vm.editConsumerData.errorMessage = 'Something went wrong!'
           }
         })
-
       }
-
     }
 
     vm.openDepositModal = function(consumer) {
@@ -146,6 +150,7 @@
     vm.openEditConsumerModal = function(consumer) {
       vm.editConsumerData.consumer = angular.copy(consumer);
       vm.editConsumerData.editedConsumer = angular.copy(consumer);
+      vm.editConsumerData.editedConsumer['repeatpassword'] = null;
       $('#editConsumerModal').modal('toggle')
     }
 

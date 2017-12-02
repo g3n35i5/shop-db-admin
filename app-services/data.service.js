@@ -37,7 +37,7 @@
             var request = [];
             var adminRoles = $localStorage.admin.adminroles;
             for (var role of adminRoles) {
-              request.push(makeRequest('statistics/department/' + role.department_id));
+              request.push(makeRequest('department/' + role.department_id + '/statistics'));
             }
             break;
           default:

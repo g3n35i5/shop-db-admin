@@ -17,6 +17,40 @@
               id="name"
               ng-model="vm.editConsumerData.editedConsumer.name">
           </div>
+          <div class="form-group">
+            <label for="email">Email adress</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              ng-model="vm.editConsumerData.editedConsumer.email">
+          </div>
+          <div class="form-group">
+            <label for="studentnumber">Studentnumber</label>
+            <input
+              type="number"
+              class="form-control"
+              id="studentnumber"
+              ng-model="vm.editConsumerData.editedConsumer.studentnumber">
+          </div>
+          <div class="form-row">
+            <div class="col-6">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                ng-model="vm.editConsumerData.editedConsumer.password">
+            </div>
+            <div class="col-6">
+              <label for="repeat-password">Repeat password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="repeat-password"
+                ng-model="vm.editConsumerData.editedConsumer.repeatpassword">
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button
