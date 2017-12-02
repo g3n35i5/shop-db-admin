@@ -11,6 +11,12 @@
     $urlRouterProvider.otherwise("/");
 
     $stateProvider
+      .state('home', {
+        url: '/',
+        templateUrl: 'app-pages/partial.dashboard.html',
+        controller: 'HomeController',
+        controllerAs: 'vm'
+      })
       .state('dashboard', {
         url: '/dashboard',
         templateUrl: 'app-pages/partial.dashboard.html',
