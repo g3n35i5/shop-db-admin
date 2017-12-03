@@ -3,12 +3,13 @@
 
   angular
     .module('ShopDBAdmin')
-    .controller('ConsumerController', ['$scope', '$localStorage', '$q',
+    .controller('ConsumerController', ['$scope', '$localStorage', '$q', 'toastr',
       'getDataService', 'postDataService', 'putDataService', '$filter', Controller
     ]);
 
-  function Controller($scope, $localStorage, $q, getDataService, postDataService, putDataService, $filter) {
+  function Controller($scope, $localStorage, $q, toastr, getDataService, postDataService, putDataService, $filter) {
     var vm = this;
+
     vm.loading = true;
     vm.depositDataInitial = {
       amount: 0,
@@ -40,7 +41,6 @@
     vm.editConsumerDataInitial = {
       consumer: null,
       editedConsumer: null,
-      error: false,
       messages: []
     }
 
@@ -114,59 +114,48 @@
       var original = vm.editConsumerData.consumer;
       var edited = vm.editConsumerData.editedConsumer;
 
-      updateConsumer(original, edited, showResult);
+      for (var property in edited) {
+        if (!edited.hasOwnProperty(property)) {
+          continue;
+        }
+        if (original.hasOwnProperty(property)) {
+          if (original[property] === edited[property]) {
+            delete edited[property];
+          }
+        }
+      }
 
-      function updateConsumer(original, edited, callback) {
-        if (original !== edited) {
-          var passwordsMatch = edited.password === edited.repeatpassword;
-          delete edited.repeatpassword;
-          if (passwordsMatch) {
-            for (var property in edited) {
-              console.log(property);
-              if (edited.hasOwnProperty(property)) {
-                if (original.hasOwnProperty(property)) {
-                  if (original[property] === edited[property]) {
-                    // Nothing has changed
-                    continue;
-                  }
+      delete edited.id
+      delete edited.credit
+
+      putDataService.putData('/consumer/' + original.id, edited).then(function(res) {
+        getDataService.getData('consumers').then(function(consumers) {
+          vm.consumers = consumers[0];
+          for (var message of res['messages']) {
+            if (message.error) {
+              toastr.error(message.message, 'Error');
+            } else {
+              toastr.success(message.message, 'Success');
+            }
+          }
+
+          if (!res['result']) {
+            for (var consumer of vm.consumers) {
+              if (consumer.id === vm.editConsumerData.consumer.id) {
+                var adminroles = {};
+                for (var role of consumer.adminroles) {
+                  adminroles[role.department_id] = true;
                 }
-                var data = {};
-                data[property] = edited[property];
-
-                putDataService.putData('/consumer/' + original.id, data).then(function(res) {
-                  var message = {
-                    message: res['message']
-                  };
-                  if (!res['result']) {
-                    vm.editConsumerData.error = true;
-                    message['class'] = 'alert-danger';
-                  } else {
-                    message['class'] = 'alert-success';
-                  }
-                  vm.editConsumerData.messages.push(message);
-                })
+                consumer.adminroles = adminroles;
+                break;
               }
             }
           } else {
-            vm.editConsumerData.error = true;
-            var message = {
-              message: 'Passwords do not match!'
-            };
-            message['class'] = 'alert-danger';
+            $('#editConsumerModal').modal('toggle')
+            vm.editConsumerData = angular.copy(vm.editConsumerDataInitial);
           }
-        }
-        callback();
-      }
-
-      function showResult() {
-        if (!vm.editConsumerData.error) {
-          $('#editConsumerModal').modal('toggle')
-          getDataService.getData('consumers').then(function(consumers) {
-            vm.consumers = consumers[0];
-          })
-          vm.editConsumerData = angular.copy(vm.editConsumerDataInitial);
-        }
-      }
+        })
+      })
     }
 
     vm.openDepositModal = function(consumer) {
