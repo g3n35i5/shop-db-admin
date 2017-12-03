@@ -6,6 +6,15 @@
       </div>
       <form>
         <div class="modal-body">
+          <div ng-if="vm.editConsumerData.error">
+            <div
+              class="alert"
+              ng-class="message.class"
+              role="alert"
+              ng-repeat="message in vm.editConsumerData.messages">
+              {{message.message}}
+            </div>
+          </div>
           <p class="text-center">Edit consumer</p>
           <h4 class="text-center">{{vm.editConsumerData.consumer.name}}</h4>
           <hr>
@@ -50,6 +59,20 @@
                 id="repeat-password"
                 ng-model="vm.editConsumerData.editedConsumer.repeatpassword">
             </div>
+          </div>
+          <hr>
+          <p class="text-center">Set adminroles</p>
+          <div class="form-check" ng-repeat="dep in vm.departments">
+            <label class="form-check-label">
+              <label class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  ng-model="vm.editConsumerData.editedConsumer.adminroles[dep.id]"
+                  ng-checked="vm.editConsumerData.editedConsumer.adminroles[dep.id]">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">{{dep.name}}</span>
+              </label>
           </div>
         </div>
         <div class="modal-footer">

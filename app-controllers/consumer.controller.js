@@ -11,43 +11,43 @@
     var vm = this;
     vm.loading = true;
     vm.depositDataInitial = {
-      'amount': 0,
-      'comment': null,
-      'consumer': null,
-      'error': false,
-      'errorMessage': null,
-      'categories': [
+      amount: 0,
+      comment: null,
+      consumer: null,
+      error: false,
+      errorMessage: null,
+      categories: [
         {
-          'text': 'Einzahlung auf Saalkonto',
-          'standalone': true
+          text: 'Einzahlung auf Saalkonto',
+          standalone: true
         },
         {
-          'text': 'Einzahlung in Barkasse',
-          'standalone': true
+          text: 'Einzahlung in Barkasse',
+          standalone: true
         },
         {
-          'text': 'Einkauf',
-          'standalone': false
+          text: 'Einkauf',
+          standalone: false
         },
         {
-          'text': 'Sonstiges',
-          'standalone': false
+          text: 'Sonstiges',
+          standalone: false
         }
       ],
-      'selectedCategory': {'standalone': true}
+      selectedCategory: {standalone: true}
     }
 
     vm.editConsumerDataInitial = {
-      'consumer': null,
-      'editedConsumer': null,
-      'error': false,
-      'errorMessage': null
+      consumer: null,
+      editedConsumer: null,
+      error: false,
+      messages: []
     }
 
     vm.addConsumerDataInitial = {
-      'consumer': {},
-      'error': false,
-      'errorMessage': null
+      consumer: {},
+      error: false,
+      errorMessage: null
     }
 
     vm.depositData = angular.copy(vm.depositDataInitial);
@@ -73,9 +73,9 @@
         }
         vm.depositData.comment
         var data = {
-          'consumer_id': vm.depositData.consumer.id,
-          'amount': vm.depositData.amount,
-          'comment': comment
+          consumer_id: vm.depositData.consumer.id,
+          amount: vm.depositData.amount,
+          comment: comment
         };
         postDataService.postData('/deposits', data).then(function(res) {
           if (res['result'] === 'created') {
@@ -113,28 +113,59 @@
     vm.editConsumer = function() {
       var original = vm.editConsumerData.consumer;
       var edited = vm.editConsumerData.editedConsumer;
-      console.log("hello?");
-      if (original != edited && edited.password === edited.repeatpassword) {
-        var data = {
-          'id': vm.editConsumerData.editedConsumer.id,
-          'name': vm.editConsumerData.editedConsumer.name,
-          'email': vm.editConsumerData.editedConsumer.email,
-          'password': vm.editConsumerData.editedConsumer.password,
-          'studentnumber': vm.editConsumerData.editedConsumer.studentnumber
-        }
 
-        putDataService.putData('/consumer/' + data.id, data).then(function(res) {
-          if (res['result'] == 'updated') {
-            getDataService.getData('consumers').then(function(consumers) {
-              vm.consumers = consumers[0];
-            })
-            $('#editConsumerModal').modal('toggle');
-            vm.editConsumerData = angular.copy(vm.editConsumerDataInitial);
+      updateConsumer(original, edited, showResult);
+
+      function updateConsumer(original, edited, callback) {
+        if (original !== edited) {
+          var passwordsMatch = edited.password === edited.repeatpassword;
+          delete edited.repeatpassword;
+          if (passwordsMatch) {
+            for (var property in edited) {
+              console.log(property);
+              if (edited.hasOwnProperty(property)) {
+                if (original.hasOwnProperty(property)) {
+                  if (original[property] === edited[property]) {
+                    // Nothing has changed
+                    continue;
+                  }
+                }
+                var data = {};
+                data[property] = edited[property];
+
+                putDataService.putData('/consumer/' + original.id, data).then(function(res) {
+                  var message = {
+                    message: res['message']
+                  };
+                  if (!res['result']) {
+                    vm.editConsumerData.error = true;
+                    message['class'] = 'alert-danger';
+                  } else {
+                    message['class'] = 'alert-success';
+                  }
+                  vm.editConsumerData.messages.push(message);
+                })
+              }
+            }
           } else {
             vm.editConsumerData.error = true;
-            vm.editConsumerData.errorMessage = 'Something went wrong!'
+            var message = {
+              message: 'Passwords do not match!'
+            };
+            message['class'] = 'alert-danger';
           }
-        })
+        }
+        callback();
+      }
+
+      function showResult() {
+        if (!vm.editConsumerData.error) {
+          $('#editConsumerModal').modal('toggle')
+          getDataService.getData('consumers').then(function(consumers) {
+            vm.consumers = consumers[0];
+          })
+          vm.editConsumerData = angular.copy(vm.editConsumerDataInitial);
+        }
       }
     }
 
@@ -148,9 +179,13 @@
     }
 
     vm.openEditConsumerModal = function(consumer) {
+      var adminroles = {};
+      for (var role of consumer.adminroles) {
+        adminroles[role.department_id] = true;
+      }
+      consumer.adminroles = adminroles;
       vm.editConsumerData.consumer = angular.copy(consumer);
       vm.editConsumerData.editedConsumer = angular.copy(consumer);
-      vm.editConsumerData.editedConsumer['repeatpassword'] = null;
       $('#editConsumerModal').modal('toggle')
     }
 
