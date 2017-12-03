@@ -25,7 +25,7 @@
           title: "Products",
           array: vm.products,
           link: "#!/products",
-          icon: "fa fa-cutlery",
+          icon: "fa fa-coffee",
           color: "bg-success"
         },
         {
@@ -34,6 +34,13 @@
           link: "#!/purchases",
           icon: "fa fa-shopping-cart",
           color: "bg-info"
+        },
+        {
+          title: "Departments",
+          array: vm.departments,
+          link: "#!/departments",
+          icon: "fa fa-fort-awesome",
+          color: "bg-danger"
         }
       ];
     }
