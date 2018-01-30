@@ -67,6 +67,7 @@
 
   function run($rootScope, $http, $location, $localStorage, jwtHelper, AuthenticationService) {
     $rootScope.$on('$locationChangeStart', function(event, next, current) {
+      AuthenticationService.UpdateLoginState();
       AuthenticationService.Status(function(result) {
         if (!result) {
           $location.path('/offline');
