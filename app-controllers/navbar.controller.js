@@ -5,15 +5,11 @@
     .module('ShopDBAdmin')
     .controller('NavbarController', Controller);
 
-  function Controller($location, $localStorage, AuthenticationService) {
+  function Controller($scope, $location, $localStorage, AuthenticationService) {
     var vm = this;
     var token = $localStorage.token;
-    vm.loggedIn = null;
-    if (typeof(token) === "undefined" || !token) {
-      vm.loggedIn = false;
-    } else {
-      vm.loggedIn = true;
-    }
+
+    AuthenticationService.Subscribe($scope, (state) => vm.loggedIn = state);
 
     initController();
 

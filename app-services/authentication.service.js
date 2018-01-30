@@ -5,18 +5,31 @@
     .module('ShopDBAdmin')
     .factory('AuthenticationService', Service);
 
-  function Service($http, $localStorage, $location, jwtHelper, apiurl) {
+  function Service($q, $http, $rootScope, $localStorage, $location, jwtHelper, apiurl) {
     var service = {};
-
 
     service.Login = Login;
     service.Logout = Logout;
     service.Status = Status;
+    service.Subscribe = Subscribe;
+    service.UpdateLoginState = UpdateLoginState;
 
     return service;
 
+    function Subscribe(scope, callback) {
+      var handler = $rootScope.$on('notifying-service-event', function() {
+        var token = $localStorage.token;
+        callback((typeof(token) !== "undefined" && token));
+      });
+      scope.$on('$destroy', handler);
+    }
+
+    function UpdateLoginState() {
+      $rootScope.$emit('notifying-service-event');
+    }
+
     function Login(email, password, callback) {
-      $http.post(apiurl + "/login", {
+      return $http.post(apiurl + "/login", {
           email: email,
           password: password
         })
@@ -24,13 +37,14 @@
             if (response.data.result) {
               $localStorage.token = response.data.token;
               $localStorage.admin = response.data.admin;
-              callback(true);
+              UpdateLoginState();
+              return $q.resolve();
             } else {
-              callback(false);
+              $localStorage.token = null;
+              $localStorage.admin = null;
+              UpdateLoginState();
+              return $q.reject();
             }
-          },
-          function(data) {
-            callback(false);
           });
     }
 
@@ -50,6 +64,8 @@
 
     function Logout() {
       delete $localStorage.token;
+      delete $localStorage.admin;
+      UpdateLoginState();
       $location.path('/login');
     }
   }

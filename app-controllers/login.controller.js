@@ -19,13 +19,11 @@
 
     function login() {
       vm.loading = true;
-      AuthenticationService.Login(vm.email, vm.password, function(result) {
-        if (result === true) {
-          $location.path('/dashboard');
-        } else {
-          vm.error = 'Email or password is incorrect';
-          vm.loading = false;
-        }
+      AuthenticationService.Login(vm.email, vm.password).then(function() {
+        $location.path('/dashboard')
+      }).catch(function() {
+        vm.error = 'Email or password is incorrect';
+        vm.loading = false;
       });
     };
   }
