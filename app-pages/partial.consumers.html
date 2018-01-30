@@ -42,28 +42,28 @@
       <table class="table">
         <thead>
           <tr>
-            <th>
+            <th scope="col">
               <a href="" ng-click="vm.sortType = 'id'; vm.sortReverse = !vm.sortReverse">
-                ID
+                #
                 <span ng-show="vm.sortType == 'id' && vm.sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="vm.sortType == 'id' && !vm.sortReverse" class="fa fa-caret-up"></span>
               </a>
             </th>
-            <th>
+            <th scope="col">
               <a href="" ng-click="vm.sortType = 'name'; vm.sortReverse = !vm.sortReverse">
                 Name
                 <span ng-show="vm.sortType == 'name' && vm.sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="vm.sortType == 'name' && !vm.sortReverse" class="fa fa-caret-up"></span>
               </a>
             </th>
-            <th>
+            <th scope="col">
               <a href="" ng-click="vm.sortType = 'credit'; vm.sortReverse = !vm.sortReverse">
                 Credit
                 <span ng-show="vm.sortType == 'credit' && vm.sortReverse" class="fa fa-caret-down"></span>
                 <span ng-show="vm.sortType == 'credit' && !vm.sortReverse" class="fa fa-caret-up"></span>
               </a>
             </th>
-            <th>
+            <th scope="col">
               <a href="" ng-click="vm.sortType = 'karma'; vm.sortReverse = !vm.sortReverse">
                 Karma
                 <span ng-show="vm.sortType == 'karma' && vm.sortReverse" class="fa fa-caret-down"></span>
@@ -91,16 +91,16 @@
               <td class="text-right">
                 <button
                   type="button"
-                  class="btn btn-outline-primary"
+                  class="btn btn-info"
                   ng-click="vm.openEditConsumerModal(consumer)">
-                  <i class="fa fa-fw fa-pencil-square-o"></i>
+                  <i class="fa fa-fw fa-pencil"></i>
                   Edit
                 </button>
               </td>
               <td class="text-right">
                 <button
                   type="button"
-                  class="btn btn-outline-primary"
+                  class="btn btn-primary"
                   ng-click="vm.openDepositModal(consumer)">
                   <i class="fa fa-fw fa-money"></i>
                   Deposit
