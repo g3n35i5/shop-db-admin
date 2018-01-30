@@ -69,7 +69,13 @@
       if (![0, '', null].includes(vm.depositData.amount)) {
         var comment = vm.depositData.selectedCategory.text;
         if (!vm.depositData.selectedCategory.standalone) {
-          comment += ':' + vm.depositData.selectedCategory;
+          if (vm.depositData.comment === null) {
+            vm.depositData.error = true;
+            vm.depositData.errorMessage = 'Please enter a comment!'
+
+          } else {
+            comment += ': ' + vm.depositData.comment;
+          }
         }
         vm.depositData.comment
         var data = {
