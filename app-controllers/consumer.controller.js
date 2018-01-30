@@ -97,7 +97,6 @@
         })
       }
     }
-
     vm.addConsumer = function () {
       var data = {
         'name': vm.addConsumerData.consumer.name
@@ -139,9 +138,9 @@
           vm.consumers = consumers[0];
           for (var message of res['messages']) {
             if (message.error) {
-              toastr.error(message.message, 'Error');
+              toastr.error(message.message, 'Consumer');
             } else {
-              toastr.success(message.message, 'Success');
+              toastr.success(message.message, 'Consumer');
             }
           }
 
