@@ -6,15 +6,6 @@
       </div>
       <form>
         <div class="modal-body">
-          <div ng-if="vm.editConsumerData.error">
-            <div
-              class="alert"
-              ng-class="message.class"
-              role="alert"
-              ng-repeat="message in vm.editConsumerData.messages">
-              {{message.message}}
-            </div>
-          </div>
           <p class="text-center">Edit consumer</p>
           <h4 class="text-center">{{vm.editConsumerData.consumer.name}}</h4>
           <hr>
