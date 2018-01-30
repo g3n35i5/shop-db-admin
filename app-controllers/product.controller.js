@@ -43,7 +43,7 @@
           'price': vm.editProductData.editedProduct.price
         }
 
-        putDataService.putData('/products/' + data.id, data).then(function(res) {
+        putDataService.putData('/product/' + data.id, data).then(function(res) {
           if (res['result'] == 'updated') {
             getDataService.getData('products').then(function(products) {
               vm.products = products[0];
