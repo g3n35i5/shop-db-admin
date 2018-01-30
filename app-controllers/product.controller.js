@@ -40,7 +40,8 @@
           'id': vm.editProductData.editedProduct.id,
           'name': vm.editProductData.editedProduct.name,
           'department_id': vm.editProductData.editedProduct.department_id,
-          'price': vm.editProductData.editedProduct.price
+          'price': vm.editProductData.editedProduct.price,
+          'image': vm.editProductData.editedProduct.image
         }
 
         putDataService.putData('/product/' + data.id, data).then(function(res) {
