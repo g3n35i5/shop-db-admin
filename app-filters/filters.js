@@ -44,6 +44,9 @@ angular.module('ShopDBAdmin').filter('stockFilter', function() {
 
 angular.module('ShopDBAdmin').filter('customDateString', function($filter) {
   return function(input) {
+    if (typeof(input) === "undefined" || input === null) {
+      return 'never'
+    }
     var oneDay = 24 * 60 * 60 * 1000;
     date1 = new Date()
     date2 = new Date(input)
