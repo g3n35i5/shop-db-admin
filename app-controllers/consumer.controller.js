@@ -174,6 +174,9 @@
 
     vm.openEditConsumerModal = function(consumer) {
       var adminroles = {};
+      for (var department of vm.departments) {
+        adminroles[department.id] = false;
+      }
       for (var role of consumer.adminroles) {
         adminroles[role.department_id] = true;
       }
