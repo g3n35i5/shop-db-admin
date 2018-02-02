@@ -1,0 +1,34 @@
+{
+  "name": "shop-db-admin",
+  "version": "1.0.0",
+  "description": "This is the administration interface for shop-db",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g3n35i5/shop-db-admin.git"
+  },
+  "author": "g3n35i5",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/g3n35i5/shop-db-admin/issues"
+  },
+  "homepage": "https://github.com/g3n35i5/shop-db-admin#readme",
+  "dependencies": {
+    "@uirouter/angularjs": "^1.0.14",
+    "angular-animate": "^1.6.9",
+    "angular-auto-complete": "^1.5.5",
+    "angular-chart.js": "^1.1.1",
+    "angular-jwt": "^0.1.9",
+    "angular-sanitize": "^1.6.9",
+    "angular-toastr": "^2.1.1",
+    "bootstrap": "^4.0.0",
+    "bootstrap-datepicker": "^1.7.1",
+    "chart.js": "^2.7.1",
+    "jquery": "^3.3.1",
+    "ng-storage": "^0.3.2",
+    "popper.js": "^1.12.9"
+  }
+}
