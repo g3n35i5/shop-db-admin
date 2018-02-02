@@ -46,36 +46,38 @@
     }
 
     function handleData() {
-      var purchaseTimes = {};
-      purchaseTimes['labels'] = vm.statistics[0].purchase_times['labels'];
-      purchaseTimes['data'] = [];
-      purchaseTimes['legend'] = [];
+      if (vm.statistics.length > 0) {
+        var purchaseTimes = {};
+        purchaseTimes['labels'] = vm.statistics[0].purchase_times['labels'];
+        purchaseTimes['data'] = [];
+        purchaseTimes['legend'] = [];
 
-      var incomesExpenses = {};
-      incomesExpenses['labels'] = [];
-      incomesExpenses['data'] = [[],[]];
-      incomesExpenses['series'] = ["Incomes", "Expenses"];
+        var incomesExpenses = {};
+        incomesExpenses['labels'] = [];
+        incomesExpenses['data'] = [[],[]];
+        incomesExpenses['series'] = ["Incomes", "Expenses"];
 
-      // Handle statistics
-      for (var stat of vm.statistics) {
-        var department = vm.departments.find(x => x.id === stat.department_id);
+        // Handle statistics
+        for (var stat of vm.statistics) {
+          var department = vm.departments.find(x => x.id === stat.department_id);
 
-        // Handle purchase times
-        purchaseTimes['data'].push(stat.purchase_times['data']);
-        purchaseTimes['legend'].push(department.name);
+          // Handle purchase times
+          purchaseTimes['data'].push(stat.purchase_times['data']);
+          purchaseTimes['legend'].push(department.name);
 
-        // Handle incomes and expenses
-        var incomes = (department.income_base + department.income_karma) / 100;
-        var expenses = department.expenses / 100;
+          // Handle incomes and expenses
+          var incomes = (department.income_base + department.income_karma) / 100;
+          var expenses = department.expenses / 100;
 
-        incomesExpenses['labels'].push(department.name);
-        incomesExpenses['data'][0].push(incomes);
-        incomesExpenses['data'][1].push(expenses);
+          incomesExpenses['labels'].push(department.name);
+          incomesExpenses['data'][0].push(incomes);
+          incomesExpenses['data'][1].push(expenses);
+        }
+        // Set statisctics
+        vm.purchaseTimes = purchaseTimes;
+        vm.incomesExpenses = incomesExpenses;
+        //vm.topProducts = topProducts;
       }
-      // Set statisctics
-      vm.purchaseTimes = purchaseTimes;
-      vm.incomesExpenses = incomesExpenses;
-      //vm.topProducts = topProducts;
 
       // Admin roles
       vm.adminRoles = $filter('adminRoles')(vm.admin.adminroles,
