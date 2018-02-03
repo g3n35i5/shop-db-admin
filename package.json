@@ -27,6 +27,8 @@
     "font-awesome": "^4.7.0",
     "bootstrap": "^4.0.0",
     "bootstrap-datepicker": "^1.7.1",
+    "angular1-ui-bootstrap4": "^2.4.22",
+    "angular-touch": "^1.6.9",
     "chart.js": "^2.7.1",
     "jquery": "^3.3.1",
     "ng-storage": "^0.3.2",
