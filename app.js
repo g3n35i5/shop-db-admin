@@ -47,6 +47,12 @@
         controller: 'PurchaseController',
         controllerAs: 'vm'
       })
+      .state('deposits', {
+        url: '/deposits',
+        templateUrl: 'app-pages/partial.deposits.html',
+        controller: 'DepositController',
+        controllerAs: 'vm'
+      })
       .state('stockhistory', {
         url: '/stockhistory',
         templateUrl: 'app-pages/partial.stockhistory.html',

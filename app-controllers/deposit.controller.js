@@ -3,7 +3,7 @@
 
   angular
     .module('ShopDBAdmin')
-    .controller('PurchaseController', ['$scope', '$localStorage', '$q',
+    .controller('DepositController', ['$scope', '$localStorage', '$q',
       'getDataService', '$filter', Controller
     ]);
 
@@ -14,34 +14,33 @@
     // Pagination variables
     vm.viewby = 10;
     vm.currentPage = 1;
-    vm.purchasesPerPage = vm.viewby;
+    vm.depositsPerPage = vm.viewby;
     vm.maxSize = 6;
-    vm.purchasesPerPageSelect = [10, 20, 30, 50, 100, 200, 500];
+    vm.depositsPerPageSelect = [10, 20, 30, 50, 100, 200, 500];
     vm.paginationWindow = [];
 
     // Pagination functions
     vm.setPage = function(pageNo) {
       vm.currentPage = pageNo;
-      var start = (pageNo - 1) * vm.purchasesPerPage;
-      var end = pageNo * vm.purchasesPerPage;
-      vm.paginationWindow = vm.revpurchases.slice(start, end);
+      var start = (pageNo - 1) * vm.depositsPerPage;
+      var end = pageNo * vm.depositsPerPage;
+      vm.paginationWindow = vm.revdeposits.slice(start, end);
     };
 
     vm.setItemsPerPage = function(num) {
-      vm.purchasesPerPage = num;
+      vm.depositsPerPage = num;
       vm.currentPage = 1;
       vm.setPage(1);
     }
     initController().then(handleData)
 
     function handleData() {
-      for (var purchase of vm.purchases) {
-        purchase.consumerName = vm.consumers.find(x => x.id === purchase.consumer_id).name;
-        purchase.productName = vm.products.find(x => x.id === purchase.product_id).name;
+      for (var deposit of vm.deposits) {
+        deposit.consumerName = vm.consumers.find(x => x.id === deposit.consumer_id).name;
       }
-      // Pagination
 
-      vm.totalPurchases = vm.purchases.length;
+      // Pagination
+      vm.totalDeposits = vm.deposits.length;
       vm.setPage(1);
       vm.loading = false;
     }
@@ -53,12 +52,9 @@
         getDataService.getData('consumers').then(function(consumers) {
           vm.consumers = consumers[0];
         }),
-        getDataService.getData('purchases').then(function(purchases) {
-          vm.purchases = purchases[0];
-          vm.revpurchases = vm.purchases.reverse();
-        }),
-        getDataService.getData('products').then(function(products) {
-          vm.products = products[0];
+        getDataService.getData('deposits').then(function(deposits) {
+          vm.deposits = deposits[0];
+          vm.revdeposits = vm.deposits.reverse();
         })
       ])
     }

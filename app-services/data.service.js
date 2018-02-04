@@ -30,6 +30,9 @@
           case 'purchases':
             request.push(makeRequest('purchases'));
             break;
+          case 'deposits':
+            request.push(makeRequest('deposits'));
+            break;
           case 'products':
             request.push(makeRequest('products'));
             break;

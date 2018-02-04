@@ -34,6 +34,10 @@
         {
           title: 'Purchases',
           route: 'purchases'
+        },
+        {
+          title: 'Deposits',
+          route: 'deposits'
         }
       ];
 

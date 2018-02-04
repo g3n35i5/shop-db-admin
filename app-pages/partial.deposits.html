@@ -1,0 +1,81 @@
+<div ng-if="vm.loading" ng-include="'app-pages/partial.loading.html'"></div>
+
+<div class="card" ng-if="!vm.loading">
+  <div class="card-body">
+    <h4 class="card-title">Deposits</h4>
+    <h6 class="card-subtitle mb-2 text-muted">
+      Here you view all deposits.
+    </h6>
+    <h6 class="card-subtitle mb-4 text-muted">
+      You can hover some fields to get more information.
+    </h6>
+
+    <div class="form-row mb-2">
+      <div class="form-group col-md-4">
+        <label for="perPageSelect">Deposits per page</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <i class="fa fa-bars"></i>
+              </div>
+            </div>
+          </div>
+          <select
+            id="perPageSelect"
+            class="custom-select"
+            ng-model="vm.viewby"
+            ng-change="vm.setItemsPerPage(vm.viewby)">
+            <option ng-repeat="item in vm.depositsPerPageSelect">{{item}}</option>
+          </select>
+          <label for="perPageSel
+          ect"></label>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="pagination">Select page</label>
+        <div class="form-group col-md-4">
+            <ul
+            id="pagination"
+            uib-pagination
+            total-items="vm.totalDeposits"
+            ng-model="vm.currentPage"
+            max-size="vm.maxSize"
+            ng-change="vm.setPage(vm.currentPage)"
+            items-per-page="vm.depositsPerPage">
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Consumer</th>
+            <th>Timestamp</th>
+            <th>Comment</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            ng-repeat="deposit in vm.paginationWindow | orderBy : '-id'">
+            <td>{{deposit.id}}</td>
+            <td>{{deposit.consumerName}}</td>
+            <td
+              data-toggle="tooltip"
+              data-placement="top"
+              title="{{deposit.timestamp}}">
+              {{deposit.timestamp | customDateString}}
+            </td>
+            <td>{{deposit.comment}}</td>
+            <td>{{deposit.amount | customCurrency:true}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
