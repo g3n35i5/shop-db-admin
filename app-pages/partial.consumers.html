@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="table-responsive">
-      <table class="table">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th scope="col">
@@ -80,17 +80,27 @@
         <tbody>
           <tr ng-repeat="consumer in vm.consumers | orderBy:vm.sortType:vm.sortReverse | filter:vm.searchString"
               ng-class="consumer.credit >= 0 ? '':'table-danger'">
-              <td>{{consumer.id}}</td>
-              <td>{{consumer.name}}</td>
-              <td>{{consumer.credit | customCurrency:true }}</td>
-              <td>
+              <td class="align-middle">{{consumer.id}}</td>
+              <td class="align-middle">
+                {{consumer.name}}
+                <span ng-if="consumer.isAdmin" class="float-right">
+                  <i class="fa fa-lg fa-star text-warning ml-2"></i>
+                </span>
+                <span ng-if="consumer.hasCredentials" class="float-right">
+                  <i class="fa fa-lg fa-lock text-info ml-2"></i>
+                </span>
+              </td>
+              <td class="align-middle">
+                {{consumer.credit | customCurrency:true }}
+              </td>
+              <td class="align-middle">
                 <i
                   class="fa fa-heart mr-1"
                   ng-style="{ 'color' : consumer.karma >= 0 ? '#4caf50':'#d50000'}">
                 </i>
                 {{consumer.karma}}
               </td>
-              <td class="text-right">
+              <td class="text-right align-middle">
                 <button
                   type="button"
                   class="btn btn-info"
@@ -99,7 +109,7 @@
                   Edit
                 </button>
               </td>
-              <td class="text-right">
+              <td class="text-right align-middle">
                 <button
                   type="button"
                   class="btn btn-primary"

@@ -53,17 +53,11 @@
           </div>
           <hr>
           <p class="text-center">Set adminroles</p>
-          <div class="form-check" ng-repeat="dep in vm.departments">
-            <label class="form-check-label">
-              <label class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  ng-model="vm.editConsumerData.editedConsumer.adminroles[dep.id]"
-                  ng-checked="vm.editConsumerData.editedConsumer.adminroles[dep.id]">
-                <span class="custom-control-indicator"></span>
-                <span class="custom-control-description">{{dep.name}}</span>
-              </label>
+          <div ng-repeat="dep in vm.departments">
+            <input
+              type="checkbox"
+              ng-model="vm.editConsumerData.editedConsumer.adminroles[dep.id]"
+              ng-checked="vm.editConsumerData.editedConsumer.adminroles[dep.id]"> {{dep.name}}
           </div>
         </div>
         <div class="modal-footer">
