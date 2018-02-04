@@ -177,8 +177,10 @@
       for (var department of vm.departments) {
         adminroles[department.id] = false;
       }
-      for (var role of consumer.adminroles) {
-        adminroles[role.department_id] = true;
+      if (consumer.adminroles.length > 0) {
+        for (var role of consumer.adminroles) {
+          adminroles[role.department_id] = true;
+        }
       }
       consumer.adminroles = adminroles;
       vm.editConsumerData.consumer = angular.copy(consumer);
