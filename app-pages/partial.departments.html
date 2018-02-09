@@ -14,6 +14,8 @@
           <th>Karma income</th>
           <th>Expenses</th>
           <th>Budget</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
 
@@ -26,6 +28,24 @@
             <td>{{department.income_karma | customCurrency:true}}</td>
             <td>{{department.expenses | customCurrency:true}}</td>
             <td>{{department.budget | customCurrency:true}}</td>
+            <td class="text-right align-middle">
+              <button
+                type="button"
+                class="btn btn-primary"
+                ng-click="vm.openDepartmentpurchaseModal(department)">
+                <i class="fa fa-fw fa-shopping-cart"></i>
+                  Purchase
+              </button>
+            </td>
+            <td class="text-right align-middle">
+              <button
+                type="button"
+                class="btn btn-primary"
+                ng-click="vm.openPayoffModal(department)">
+                <i class="fa fa-fw fa-money"></i>
+                  Payoff
+              </button>
+            </td>
         </tr>
         </tbody>
         </table>
@@ -50,11 +70,14 @@
           <th>Amount</th>
           <th>Comment</th>
           <th>Timestamp</th>
+          <th>Revoke</th>
         </tr>
       </thead>
 
       <tbody>
-      <tr ng-repeat="payoff in vm.payoffs | orderBy : '-id'">
+      <tr
+        ng-repeat="payoff in vm.payoffs | orderBy : '-id'"
+        ng-class="payoff.revoked ? 'table-secondary' : ''">
         <td>{{payoff.id}}</td>
         <td>{{payoff.departmentName}}</td>
         <td>{{payoff.amount | customCurrency:true}}</td>
@@ -65,9 +88,24 @@
           {{payoff.comment | longStrings:40}}
         </td>
         <td>{{payoff.timestamp | customDateString}}</td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-outline"
+            ng-click="vm.revoke_payoff(payoff)"
+            ng-disabled="payoff.revoked">
+            <i ng-class="payoff.revoked? 'fa-times' : 'fa-reply'" class="fa"></i>
+          </button>
+        </td>
       </tr>
       </tbody>
   </table>
 
   </div>
 </div>
+
+<!-- Include makeDepositModal -->
+<div ng-include="'app-pages/modals/departmentpurchaseModal.html'"></div>
+
+<!-- Include makeDepositModal -->
+<div ng-include="'app-pages/modals/createPayoffModal.html'"></div>
