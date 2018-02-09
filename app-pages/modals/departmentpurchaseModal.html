@@ -1,0 +1,86 @@
+<div class="modal fade" id="departmentpurchaseModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Insert department purchases</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <form>
+        <div class="modal-body">
+          <h4 class="text-center text-secondary mb-4"><u>{{vm.dpurchaseData.department.name}}</u></h4>
+          <form>
+            <div class="row">
+              <div class="col-6">
+                <input
+                  id="product"
+                  type="text"
+                  ng-model="vm.dpurchase.product"
+                  uib-typeahead="p as p.name for p in vm.products
+                    | filter:$viewValue
+                    | filter: {department_id: vm.dpurchaseData.department.id}
+                    | limitTo:8"
+                  class="form-control">
+                <label for="product">Product</label>
+              </div>
+              <div class="col-2">
+                <input id="amount" ng-model="vm.dpurchase.amount" type="number" class="form-control">
+                <label for="amount">Amount</label>
+              </div>
+              <div class="col-3">
+                <input id="price" ng-model="vm.dpurchase.price" type="number" class="form-control">
+                <label for="price">Price per product</label>
+              </div>
+              <div class="col-1">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  ng-click="vm.add_dpurchase($index)">
+                  <i class="fa fa-fw fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+          <div ng-if="vm.dpurchaseData.dpurchases.length > 0">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Amount</th>
+                  <th>Price per product</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr ng-repeat="dpurchase in vm.dpurchaseData.dpurchases">
+                  <td>{{dpurchase.productname}}</td>
+                  <td>{{dpurchase.amount}}</td>
+                  <td>{{dpurchase.price | customCurrency:true}}</td>
+                  <td class="text-right align-middle">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      ng-click="vm.remove_dpurchase(dpurchase)">
+                      <i class="fa fa-fw fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="submit"
+            ng-click="vm.insert_departmentpurchases()"
+            class="btn btn-primary"
+            ng-disabled="vm.dpurchaseData.dpurchases.length == 0">Submit
+          </button>
+          <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
