@@ -2,7 +2,15 @@
   'use strict';
 
   angular
-    .module('ShopDBAdmin', ['ui.router', 'ngStorage', 'angular-jwt', 'chart.js', 'ngAnimate', 'toastr', 'ui.bootstrap'])
+    .module('ShopDBAdmin', [
+      'ui.router',
+      'ngStorage',
+      'angular-jwt',
+      'chart.js',
+      'ngAnimate',
+      'toastr',
+      'ui.bootstrap'
+    ])
     .config(config)
     .run(run)
     .constant("apiurl", "http://" + window.location.hostname + ":5000");
