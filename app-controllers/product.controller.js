@@ -3,11 +3,31 @@
 
   angular
     .module('ShopDBAdmin')
-    .controller('ProductController', ['$scope', '$localStorage', '$q',
-      'getDataService', 'postDataService', 'putDataService', '$filter', Controller
+    .controller('ProductController',
+      [
+        '$scope',
+        '$localStorage',
+        '$q',
+        'toastr',
+        'apiurl',
+        'getDataService',
+        'postDataService',
+        'putDataService',
+        '$filter',
+        Controller
     ]);
 
-  function Controller($scope, $localStorage, $q, getDataService, postDataService, putDataService, $filter) {
+  function Controller(
+      $scope,
+      $localStorage,
+      $q,
+      toastr,
+      apiurl,
+      getDataService,
+      postDataService,
+      putDataService,
+      $filter
+    ) {
     var vm = this;
     vm.loading = true;
 
@@ -20,20 +40,61 @@
 
     vm.editProductData = angular.copy(vm.editProductDataInitial);
 
+    vm.addProductDataInitial = {
+      'name': null,
+      'price': null,
+      'department_id': null,
+      'countable': null,
+      'revocable': null
+    }
+
     // product list filters
     vm.sortType = 'name';
     vm.sortReverse = false;
     vm.searchString = '';
 
+    function extend_products() {
+      for (var product of vm.products) {
+        product.departmentName = vm.departments.find(x => x.id === product.department_id).name;
+        if (product.image) {
+          product.image = apiurl + '/images/' + product.image;
+        } else {
+          product.image = apiurl + '/images/default.jpg';
+        }
+      }
+    }
     initController().then(handleData)
 
     function handleData() {
-      for (var product of vm.products) {
-        product.departmentName = vm.departments.find(x => x.id === product.department_id).name;
-      }
+      extend_products()
       vm.loading = false;
     }
 
+    vm.addProduct = function () {
+      var data = vm.addProductData;
+      var valid = true;
+      for (var key in data) {
+        if (data[key] === null || data[key] === 'undefined') {
+          toastr.error(key + ' is not defined!', 'Product');
+          valid = false;
+        }
+      }
+      if (valid) {
+        postDataService.postData('/products', data).then(function(res) {
+          if (res['result'] === 'created') {
+            getDataService.getData('products').then(function(products) {
+              vm.products = products[0];
+            })
+            toastr.success(data.name + ' added', 'Product');
+            extend_products()
+            $('#addProductModal').modal('toggle');
+            vm.addProductData = angular.copy(vm.addProductDataInitial);
+          } else {
+            toastr.error('Could not insert product', 'Product');
+          }
+        })
+      }
+    }
     vm.editProduct = function() {
       if (vm.editProductData.product != vm.editProductData.editedProduct) {
         var data = {
@@ -63,6 +124,11 @@
       vm.editProductData.product = angular.copy(product);
       vm.editProductData.editedProduct = angular.copy(product);
       $('#editProductModal').modal('toggle')
+    }
+
+    vm.openAddProductModal = function() {
+      vm.addProductData = angular.copy(vm.addProductDataInitial);
+      $('#addProductModal').modal('toggle')
     }
 
     function initController() {
