@@ -51,8 +51,30 @@
                 ng-model="vm.editConsumerData.editedConsumer.repeatpassword">
             </div>
           </div>
-          <hr>
-          <p class="text-center">Set adminroles</p>
+          <div class="mb-3">
+            <p>Active</p>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                ng-model="vm.editConsumerData.editedConsumer.active"
+                ng-value="true"
+                id="activeYes"
+                name="activeYes"
+                class="custom-control-input">
+              <label class="custom-control-label" for="activeYes">Yes</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                ng-model="vm.editConsumerData.editedConsumer.active"
+                ng-value="false"
+                id="activeNo"
+                name="activeNo"
+                class="custom-control-input">
+              <label class="custom-control-label" for="activeNo">No</label>
+            </div>
+          </div>
+          <p>Adminroles</p>
           <div ng-repeat="dep in vm.departments">
             <input
               type="checkbox"
