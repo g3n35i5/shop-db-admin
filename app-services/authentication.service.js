@@ -36,7 +36,14 @@
         .then(function(response) {
             if (response.data.result) {
               $localStorage.token = response.data.token;
-              $localStorage.admin = response.data.admin;
+              var token_decode = jwtHelper.decodeToken(response.data.token);
+              if (!('admin' in token_decode)) {
+                $localStorage.token = null;
+                $localStorage.admin = null;
+                UpdateLoginState();
+                return $q.reject();
+              }
+              $localStorage.admin = token_decode['admin'];
               UpdateLoginState();
               return $q.resolve();
             } else {
