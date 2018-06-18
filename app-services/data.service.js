@@ -24,6 +24,9 @@
           case 'departments':
             request.push(makeRequest('departments'));
             break;
+          case 'departmentpurchasecollections':
+            request.push(makeRequest('departmentpurchasecollections'));
+            break;
           case 'payoffs':
             request.push(makeRequest('payoffs'));
             break;

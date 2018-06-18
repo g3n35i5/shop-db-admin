@@ -52,57 +52,115 @@
   </div>
 </div>
 
-<div class="card">
-  <div class="card-body">
-    <h4 class="card-title">Payoffs</h4>
-    <h6 class="card-subtitle mb-2 text-muted">
-      Here you see all payoffs.
-    </h6>
-    <h6 class="card-subtitle mb-2 text-muted">
-      Hover the comment field for more information.
-    </h6>
+<div class="row">
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ml-auto">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Payoffs</h4>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Here you see all payoffs.
+        </h6>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Hover the comment field for more information.
+        </h6>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Department</th>
-          <th>Amount</th>
-          <th>Comment</th>
-          <th>Timestamp</th>
-          <th>Revoke</th>
-        </tr>
-      </thead>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Department</th>
+              <th>Amount</th>
+              <th>Comment</th>
+              <th>Timestamp</th>
+              <th>Revoke</th>
+            </tr>
+          </thead>
 
-      <tbody>
-      <tr
-        ng-repeat="payoff in vm.payoffs | orderBy : '-id'"
-        ng-class="payoff.revoked ? 'table-secondary' : ''">
-        <td>{{payoff.id}}</td>
-        <td>{{payoff.departmentName}}</td>
-        <td>{{payoff.amount | customCurrency:true}}</td>
-        <td
-          data-toggle="tooltip"
-          data-placement="top"
-          title="{{payoff.comment}}">
-          {{payoff.comment | longStrings:40}}
-        </td>
-        <td>{{payoff.timestamp | customDateString}}</td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-outline"
-            ng-click="vm.revoke_payoff(payoff)"
-            ng-disabled="payoff.revoked">
-            <i ng-class="payoff.revoked? 'fa-times' : 'fa-reply'" class="fa"></i>
-          </button>
-        </td>
-      </tr>
-      </tbody>
-  </table>
+          <tbody>
+          <tr
+            ng-repeat="payoff in vm.payoffs | orderBy : '-id'"
+            ng-class="payoff.revoked ? 'table-secondary' : ''">
+            <td>{{payoff.id}}</td>
+            <td>{{payoff.departmentName}}</td>
+            <td>{{payoff.amount | customCurrency:true}}</td>
+            <td
+              data-toggle="tooltip"
+              data-placement="top"
+              title="{{payoff.comment}}">
+              {{payoff.comment | longStrings:40}}
+            </td>
+            <td>{{payoff.timestamp | customDateString}}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-outline"
+                ng-click="vm.revoke_payoff(payoff)"
+                ng-disabled="payoff.revoked">
+                <i ng-class="payoff.revoked? 'fa-times' : 'fa-reply'" class="fa"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ml-auto">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Department purchases</h4>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Here you see all deprtment purchases .
+        </h6>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Hover the comment field for more information.
+        </h6>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Department</th>
+              <th>Amount</th>
+              <th>Comment</th>
+              <th>Timestamp</th>
+              <th>Revoke</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <tr
+            ng-repeat="dpcollection in vm.dpcollections | orderBy : '-id'"
+            ng-class="dpcollection.revoked ? 'table-secondary' : ''">
+            <td>{{dpcollection.id}}</td>
+            <td>{{dpcollection.departmentName}}</td>
+            <td>{{dpcollection.sum_price | customCurrency:true}}</td>
+            <td
+              data-toggle="tooltip"
+              data-placement="top"
+              title="{{dpcollection.comment}}">
+              {{dpcollection.comment | longStrings:40}}
+            </td>
+            <td>{{dpcollection.timestamp | customDateString}}</td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-outline"
+                ng-click="vm.revoke_dpcollection(dpcollection)"
+                ng-disabled="dpcollection.revoked">
+                <i ng-class="dpcollection.revoked? 'fa-times' : 'fa-reply'" class="fa"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
+
+
 
 <!-- Include makeDepositModal -->
 <div ng-include="'app-pages/modals/departmentpurchaseModal.html'"></div>

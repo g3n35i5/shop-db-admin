@@ -10,6 +10,17 @@
           <h4 class="text-center text-secondary mb-4"><u>{{vm.dpurchaseData.department.name}}</u></h4>
           <form>
             <div class="row">
+              <div class="col-12 mb-2">
+                <label for="dpurchaseComment">Comment</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="dpurchaseComment"
+                  ng-model="vm.dpurchaseData.comment"
+                  placeholder="Please enter a comment">
+              </div>
+            </div>
+            <div class="row">
               <div class="col-6">
                 <input
                   id="product"
@@ -28,7 +39,7 @@
               </div>
               <div class="col-3">
                 <input id="price" ng-model="vm.dpurchase.price" type="number" class="form-control">
-                <label for="price">Price per product</label>
+                <label for="price">Total price</label>
               </div>
               <div class="col-1">
                 <button

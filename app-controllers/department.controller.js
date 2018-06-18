@@ -21,7 +21,8 @@
 
     vm.dpurchaseDataInitial = {
       department: null,
-      dpurchases: []
+      dpurchases: [],
+      comment: null
     }
     vm.dpurchaseInitial = {
       product: null,
@@ -46,8 +47,16 @@
       }
     }
 
+    function extend_dpcollections() {
+      for (var dpcol of vm.dpcollections) {
+        dpcol.departmentName = vm.departments.find(x => x.id === dpcol.department_id).name;
+      }
+    }
+
     function handleData() {
-      extend_payoffs()
+      extend_payoffs();
+      extend_dpcollections();
+      console.log(vm.dpcollections)
     }
 
     vm.add_dpurchase = function() {
@@ -77,6 +86,8 @@
 
     vm.insert_payoff = function () {
       var obj = vm.payoffData;
+      console.log($localStorage.admin);
+      console.log($localStorage.token);
       if (obj.amount && obj.department && obj.comment) {
         var data = {
           department_id: obj.department.id,
@@ -86,7 +97,7 @@
         }
         postDataService.postData('/payoff', data).then(function(res) {
           if (res['result'] === 'created') {
-            toastr.success('Deposit inserted', 'Deposit')
+            toastr.success('Payoff inserted', 'Payoff')
             getDataService.getData('payoffs').then(function(payoffs) {
               vm.payoffs = payoffs[0];
               extend_payoffs();
@@ -97,7 +108,7 @@
             vm.payoffData = angular.copy(vm.payoffDataInitial);
             $('#payoffModal').modal('toggle')
           } else {
-            toastr.error('Could not insert deposit', 'Deposit')
+            toastr.error('Could not insert payoff', 'Payoff')
           }
         })
       }
@@ -122,50 +133,65 @@
     }
 
     vm.insert_departmentpurchases = function() {
-      if (vm.dpurchaseData.dpurchases.length > 0) {
-        var data = {
-          dpurchases: [],
-          department_id: vm.dpurchaseData.department.id,
-          admin_id: $localStorage.admin.id
-        }
-        for (var dpurchase of vm.dpurchaseData.dpurchases) {
-          var d = {
-            product_id: dpurchase.product.id,
-            amount: dpurchase.amount,
-            price: dpurchase.price
+      if (!vm.dpurchaseData.comment) {
+        toastr.error('Enter a comment!', 'Department purchases')
+      } else {
+        if (vm.dpurchaseData.dpurchases.length > 0) {
+          var data = {
+            dpurchases: [],
+            department_id: vm.dpurchaseData.department.id,
+            admin_id: $localStorage.admin.id,
+            comment: vm.dpurchaseData.comment
           }
-          data.dpurchases.push(d);
-        }
-        postDataService.postData('/departmentpurchases', data).then(function(res) {
-          if (res['result'] === 'created') {
-            getDataService.getData('payoffs').then(function(payoffs) {
-              vm.payoffs = payoffs[0];
-              extend_payoffs();
-            })
-            getDataService.getData('departments').then(function(departments) {
-              vm.departments = departments[0];
-            })
-            $('#departmentpurchaseModal').modal('toggle');
-            vm.dpurchaseData = angular.copy(vm.dpurchaseDataInitial);
-            vm.dpurchase = angular.copy(vm.dpurchaseInitial);
-            toastr.success('Success', 'Department purchases')
-          } else {
-            toastr.error('Could not insert departmentpurchases', 'Department purchases')
+          for (var dpurchase of vm.dpurchaseData.dpurchases) {
+            var d = {
+              product_id: dpurchase.product.id,
+              amount: dpurchase.amount,
+              total_price: dpurchase.price
+            }
+            data.dpurchases.push(d);
           }
-        })
+          postDataService.postData('/departmentpurchases', data).then(function(res) {
+            if (res['result'] === 'created') {
+              getDataService.getData('departmentpurchasecollections')
+              .then(function(dpcollections) {
+                vm.dpcollections = dpcollections[0];
+                extend_dpcollections();
+              })
+              getDataService.getData('departments').then(function(departments) {
+                vm.departments = departments[0];
+              })
+              $('#departmentpurchaseModal').modal('toggle');
+              vm.dpurchaseData = angular.copy(vm.dpurchaseDataInitial);
+              vm.dpurchase = angular.copy(vm.dpurchaseInitial);
+              toastr.success('Success', 'Department purchases')
+            } else {
+              toastr.error('Could not insert departmentpurchases', 'Department purchases')
+            }
+          })
+        } else {
+          toastr.error('You need at least one purchase', 'Department purchases')
+        }
       }
     }
 
     function initController() {
       vm.admin = $localStorage.admin;
       return $q.all([
-        getDataService.getData('departments').then(function(departments) {
+        getDataService.getData('departments')
+        .then(function(departments) {
           vm.departments = departments[0];
         }),
-        getDataService.getData('payoffs').then(function(payoffs) {
+        getDataService.getData('departmentpurchasecollections')
+        .then(function(dpcollections) {
+          vm.dpcollections = dpcollections[0];
+        }),
+        getDataService.getData('payoffs')
+        .then(function(payoffs) {
           vm.payoffs = payoffs[0];
         }),
-        getDataService.getData('products').then(function(products) {
+        getDataService.getData('products')
+        .then(function(products) {
           vm.products = products[0];
         })
       ])
