@@ -80,6 +80,7 @@
       if (obj.amount && obj.department && obj.comment) {
         var data = {
           department_id: obj.department.id,
+          admin_id: $localStorage.admin.id,
           amount: obj.amount,
           comment: obj.comment
         }
