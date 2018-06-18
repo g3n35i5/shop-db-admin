@@ -56,7 +56,6 @@
     function handleData() {
       extend_payoffs();
       extend_dpcollections();
-      console.log(vm.dpcollections)
     }
 
     vm.add_dpurchase = function() {
@@ -84,10 +83,22 @@
       $('#payoffModal').modal('toggle')
     }
 
+    vm.showDPModal = function(dpcollection) {
+      var id = dpcollection.id;
+      vm.dpcollection = dpcollection;
+      getDataService.getData('departmentpurchases/' + id)
+      .then(function(dpurchases) {
+        vm.dpcollection.dpurchases = dpurchases[0];
+        for (var dpurchase of vm.dpcollection.dpurchases) {
+          dpurchase.productname = vm.products.find(x => x.id === dpurchase.product_id).name;
+        }
+      })
+      $('#dpCollectionModal').modal('toggle');
+      console.log(vm.dpcollection);
+    }
+
     vm.insert_payoff = function () {
       var obj = vm.payoffData;
-      console.log($localStorage.admin);
-      console.log($localStorage.token);
       if (obj.amount && obj.department && obj.comment) {
         var data = {
           department_id: obj.department.id,

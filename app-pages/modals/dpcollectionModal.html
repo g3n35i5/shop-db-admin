@@ -1,0 +1,33 @@
+<div class="modal fade" id="dpCollectionModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Department purchase #{{vm.dpcollection.id}}</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p ng-if="vm.dpcollection.comment">
+          {{vm.dpcollection.comment}}
+        </p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Amount</th>
+              <th>Total price</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr ng-repeat="dpurchase in vm.dpcollection.dpurchases">
+              <td>{{dpurchase.productname}}</td>
+              <td>{{dpurchase.amount}}</td>
+              <td>{{dpurchase.total_price | customCurrency:true}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>

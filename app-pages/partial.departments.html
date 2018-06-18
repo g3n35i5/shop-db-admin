@@ -126,6 +126,7 @@
               <th>Comment</th>
               <th>Timestamp</th>
               <th>Revoke</th>
+              <th>Show</th>
             </tr>
           </thead>
 
@@ -152,6 +153,14 @@
                 <i ng-class="dpcollection.revoked? 'fa-times' : 'fa-reply'" class="fa"></i>
               </button>
             </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-outline"
+                ng-click="vm.showDPModal(dpcollection)">
+                <i class="fa fa-eye"></i>
+              </button>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -167,3 +176,6 @@
 
 <!-- Include makeDepositModal -->
 <div ng-include="'app-pages/modals/createPayoffModal.html'"></div>
+
+<!-- Include show departmentpurchase Modal -->
+<div ng-include="'app-pages/modals/dpcollectionModal.html'"></div>

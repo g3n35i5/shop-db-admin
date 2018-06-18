@@ -17,38 +17,31 @@
           'products', 'statistics'
         ];
         var request = [];
-        switch (path) {
-          case 'consumers':
-            request.push(makeRequest('consumers'));
-            break;
-          case 'departments':
-            request.push(makeRequest('departments'));
-            break;
-          case 'departmentpurchasecollections':
-            request.push(makeRequest('departmentpurchasecollections'));
-            break;
-          case 'payoffs':
-            request.push(makeRequest('payoffs'));
-            break;
-          case 'purchases':
-            request.push(makeRequest('purchases'));
-            break;
-          case 'deposits':
-            request.push(makeRequest('deposits'));
-            break;
-          case 'products':
-            request.push(makeRequest('products'));
-            break;
-          case 'statistics':
-            var request = [];
-            var adminRoles = $localStorage.admin.adminroles;
-            for (var role of adminRoles) {
-              request.push(makeRequest('department/' + role.department_id + '/statistics'));
-            }
-            break;
-          default:
-            deferred.reject();
-            return deferred.promise;
+        if (path === 'consumers') {
+          request.push(makeRequest('consumers'));
+        } else if (path === 'departments') {
+          request.push(makeRequest('departments'));
+        } else if (path === 'departmentpurchasecollections') {
+          request.push(makeRequest('departmentpurchasecollections'));
+        } else if (path === 'payoffs') {
+          request.push(makeRequest('payoffs'));
+        } else if (path === 'purchases') {
+          request.push(makeRequest('purchases'));
+        } else if (path === 'deposits') {
+          request.push(makeRequest('deposits'));
+        } else if (path === 'products') {
+          request.push(makeRequest('products'));
+        } else if (path === 'statistics') {
+          var request = [];
+          var adminRoles = $localStorage.admin.adminroles;
+          for (var role of adminRoles) {
+            request.push(makeRequest('department/' + role.department_id + '/statistics'));
+          }
+        } else if (path.startsWith('departmentpurchases')) {
+          request.push(makeRequest(path));
+        } else {
+          deferred.reject();
+          return deferred.promise;
         }
 
         $q.all(request).then(
